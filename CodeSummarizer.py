@@ -14,11 +14,11 @@ class CodeSummarizer:
     def __init__(self):
         """Initialize the CodeSummarizer with Ollama endpoint configuration"""
         self.ollama_endpoint = "http://localhost:11434/api/generate"
-        self.model = "llama2:13b"
+        self.model = "codellama:latest "
         # Common code file extensions
         self.code_extensions = {
             '.py', '.js', '.java', '.cpp', '.c', '.h', '.cs', '.php',
-            '.rb', '.go', '.rs', '.ts','.html'
+             '.ts','.html'
         }
         colorama.init()
 
@@ -47,17 +47,20 @@ class CodeSummarizer:
         """
         return f"""Please analyze this {file_path.suffix[1:]} code file and provide a detailed technical summary including:
 
-1. Overall Purpose: Briefly explain what this code does
-2. Main Components: Describe the key classes, functions, or modules
-3. Implementation Details: Notable algorithms, patterns, or techniques used
-4. Dependencies: List any external libraries or systems required
-5. Technical Highlights: Any interesting or important technical aspects
+'You are an expert programmer that writes simple, concise code and explanations'
+1. **Overall Purpose**: Explain the purpose of this code in 1-2 sentences.
+2. **Main Components**: Describe the key classes, functions, and modules. Highlight their roles with brief explanations.
+3. **Code Highlights**: Include  relevant code snippets to demonstrate key logic, algorithms, or patterns.
+4. **Dependencies**: List any external libraries, APIs, or systems required for this code.
+5. **Technical Insights**: Point out any notable algorithms, design patterns, or advanced techniques used.
+6. **Improvement Suggestions**: Suggest improvements or optimizations if applicable.
 
-Code to analyze:
+Make sure to avoid repeating the same information. Structure the response clearly using the sections and numbering above.
+
+Here is the code to analyze:
 
 {code}
-
-Please structure your response in clear sections using the numbers above."""
+"""
 
     def _call_ollama(self, prompt: str) -> Optional[str]:
         """
